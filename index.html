@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohammed Usman F | AI/ML Engineer</title>
+<meta name="description" content="Portfolio of Mohammed Usman F, an entry-level AI/ML engineer in Bangalore building RAG systems, GPU inference services and Python backends.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F6F6F6;
+    --ink: #000000;
+    --muted: #5C5C5C;
+    --line: #E1E1E1;
+    --bar-base: #C4C4C4;
+    --font: "Geist", "Helvetica Neue", Arial, sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000000;
+      --surface: #0F0F0F;
+      --ink: #FFFFFF;
+      --muted: #A3A3A3;
+      --line: #2C2C2C;
+      --bar-base: #484848;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --surface: #0F0F0F;
+    --ink: #FFFFFF;
+    --muted: #A3A3A3;
+    --line: #2C2C2C;
+    --bar-base: #484848;
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-text-size-adjust: 100%;
+  }
+  a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  h1, h2, h3, h4 { margin: 0; line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; }
+  p { margin: 0 0 1em; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  [hidden] { display: none !important; }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Top bar */
+  .top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 2rem; padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .top .name { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; }
+  .top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.6rem; font-size: 0.97rem; }
+  .top nav a { color: var(--muted); text-decoration: none; padding: 0.2rem 0; }
+  .top nav a:hover { color: var(--ink); text-decoration: underline; }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    font: inherit; font-weight: 500; font-size: 1rem;
+    background: var(--ink); color: var(--bg);
+    border: 1px solid var(--ink); border-radius: 6px;
+    padding: 0.65rem 1.25rem; cursor: pointer; text-decoration: none;
+  }
+  .btn:hover { opacity: 0.85; text-decoration: none; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--bg); opacity: 1; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .status { color: var(--muted); font-size: 0.95rem; margin: 0.75rem 0 0; min-height: 1.4em; }
+
+  /* Hero */
+  .hero { padding: clamp(3.5rem, 10vw, 7.5rem) 0 clamp(3rem, 7vw, 5.5rem); }
+  .hero h1 { font-size: clamp(2.6rem, 7.6vw, 5.8rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1.02; max-width: 15ch; }
+  .hero .lede { max-width: 58ch; font-size: 1.2rem; color: var(--muted); margin-top: 1.75rem; }
+
+  /* Retrieval panel */
+  .ask { margin-top: 3.5rem; border: 1px solid var(--ink); border-radius: 8px; padding: clamp(1.1rem, 3vw, 1.9rem); }
+  .ask h2 { font-size: 1.35rem; }
+  .ask .hint { color: var(--muted); font-size: 0.98rem; margin: 0.4rem 0 1.15rem; max-width: 62ch; }
+  .ask form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .ask input[type="text"] {
+    flex: 1 1 240px; min-width: 0;
+    font: inherit; font-size: 1.05rem; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+  }
+  .ask input[type="text"]:focus { border-color: var(--ink); }
+  .ask input[type="text"]::placeholder { color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.95rem; }
+  .chip {
+    font: inherit; font-size: 0.92rem; color: var(--ink);
+    background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 0.25rem 0.85rem; cursor: pointer;
+  }
+  .chip:hover { border-color: var(--ink); }
+  .results { margin-top: 1.5rem; display: grid; gap: 0.75rem; }
+  .result {
+    border-top: 1px solid var(--line);
+    padding: 1rem 0 0.25rem;
+    animation: rise 380ms cubic-bezier(.2,.7,.2,1) both;
+  }
+  .result:nth-child(2) { animation-delay: 90ms; }
+  .result:nth-child(3) { animation-delay: 180ms; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .result header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; margin-bottom: 0.3rem; }
+  .result .src { font-weight: 600; }
+  .result .src a { font-weight: 400; margin-left: 0.7rem; font-size: 0.92rem; color: var(--muted); }
+  .result .src a:hover { color: var(--ink); }
+  .result .score { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; color: var(--muted); }
+  .result .score .meter { width: 84px; height: 4px; background: var(--line); }
+  .result .score .meter i { display: block; height: 100%; background: var(--ink); }
+  .result p { margin: 0; max-width: 70ch; }
+  mark { background: var(--ink); color: var(--bg); padding: 0 0.2em; border-radius: 2px; }
+  .empty { color: var(--muted); margin: 0; }
+
+  /* Sections */
+  section.block { padding: clamp(3rem, 7vw, 5.5rem) 0; border-top: 1px solid var(--ink); }
+  section.block > .wrap > h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); margin-bottom: 2.5rem; }
+
+  /* About */
+  .about p { max-width: 62ch; font-size: 1.3rem; line-height: 1.55; letter-spacing: -0.01em; }
+  .about p:last-child { margin-bottom: 0; }
+
+  /* Projects */
+  .project { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 1rem 3rem; padding: 2.5rem 0; border-top: 1px solid var(--line); }
+  .project:first-of-type { border-top: 0; padding-top: 0; }
+  .project h3 { font-size: 1.5rem; }
+  .project .when { color: var(--muted); font-size: 0.97rem; margin: 0.5rem 0 0; }
+  .project .stack { color: var(--muted); font-size: 0.97rem; margin: 0.9rem 0 0; }
+  .project .links { margin-top: 0.9rem; font-size: 0.97rem; }
+  .project .lead { font-size: 1.3rem; line-height: 1.45; letter-spacing: -0.01em; max-width: 56ch; }
+  .project ul.points { max-width: 64ch; }
+  .project ul.points li { position: relative; padding-left: 1.3rem; margin-bottom: 0.7rem; }
+  .project ul.points li::before { content: ""; position: absolute; left: 0; top: 0.78em; width: 7px; height: 1px; background: var(--ink); }
+
+  /* RAG flow: a real sequence */
+  .flow { counter-reset: step; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 1.75rem 0 1.5rem; }
+  .flow li { counter-increment: step; border: 1px solid var(--ink); border-radius: 6px; padding: 0.8rem 0.95rem 0.95rem; font-size: 0.95rem; line-height: 1.4; }
+  .flow li::before { content: counter(step); display: block; font-weight: 600; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.35rem; }
+  .flow li strong { display: block; font-weight: 600; font-size: 1.02rem; margin-bottom: 0.15rem; }
+  .flow li.branch { border-style: dashed; }
+
+  /* Benchmark */
+  .bench { border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem 1.4rem 1.4rem; margin: 1.75rem 0 1.5rem; max-width: 640px; }
+  .bench h4 { font-size: 1rem; margin: 0 0 1.1rem; letter-spacing: -0.01em; }
+  .bar-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 56px; align-items: center; gap: 0.75rem; margin-bottom: 0.7rem; font-size: 0.95rem; }
+  .bar-row:last-of-type { margin-bottom: 0; }
+  .bar-row .track { height: 22px; background: var(--surface); }
+  .bar-row .track i { display: block; height: 100%; background: var(--bar-base); }
+  .bar-row.fast .track i { background: var(--ink); }
+  .bar-row b { text-align: right; font-weight: 600; }
+  .bench .note { font-size: 0.95rem; color: var(--muted); margin: 1rem 0 0; }
+
+  /* Verdicts */
+  .verdicts { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0; }
+  .verdict { font-weight: 700; font-size: 1rem; padding: 0.4rem 1.05rem; border-radius: 6px; border: 1.5px solid var(--ink); }
+  .verdict.buy { background: var(--ink); color: var(--bg); }
+  .verdict.hold { border-style: dashed; }
+  .verdict.avoid { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--muted); border-color: var(--line); }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: 240px minmax(0, 1fr); margin: 0; }
+  .skills dt { font-weight: 600; padding: 1.1rem 1.5rem 1.1rem 0; border-top: 1px solid var(--line); }
+  .skills dd { margin: 0; padding: 1.1rem 0; border-top: 1px solid var(--line); max-width: 68ch; color: var(--muted); }
+  .skills dt:first-of-type, .skills dt:first-of-type + dd { border-top: 0; padding-top: 0; }
+
+  /* Education */
+  .edu { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; }
+  .edu h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+  .edu li { padding: 1rem 0; border-top: 1px solid var(--line); }
+  .edu li:first-child { padding-top: 0.9rem; }
+  .edu li strong { font-weight: 600; display: block; }
+  .edu li span { color: var(--muted); font-size: 0.97rem; }
+  .langs { margin-top: 2.25rem; color: var(--muted); max-width: 64ch; }
+
+  /* Contact */
+  .contact .open { color: var(--muted); max-width: 56ch; margin-bottom: 1.5rem; }
+  .contact .big { font-weight: 600; font-size: clamp(1.4rem, 5vw, 3rem); letter-spacing: -0.035em; overflow-wrap: anywhere; line-height: 1.15; }
+  .contact .big a { text-decoration-thickness: 2px; }
+  .contact ul { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1.75rem; }
+
+  footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; color: var(--muted); font-size: 0.93rem; }
+
+  @media (max-width: 780px) {
+    .project, .skills, .edu { grid-template-columns: minmax(0, 1fr); }
+    .skills dt { padding-bottom: 0; }
+    .skills dd { border-top: 0; padding-top: 0.15rem; }
+    .flow { grid-template-columns: minmax(0, 1fr); }
+    .bar-row { grid-template-columns: 90px minmax(0, 1fr) 48px; gap: 0.5rem; font-size: 0.88rem; }
+    .edu { gap: 2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .result { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="name" href="#top">Mohammed Usman F</a>
+    <nav aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Mohammed Usman F builds AI systems from data to API.</h1>
+      <p class="lede">Entry-level AI/ML engineer in Bangalore. I work on retrieval-augmented generation, GPU inference and Python backends, and I take each system through embeddings, model integration, evaluation and delivery. MCA, CGPA 8.7.</p>
+      <div class="actions">
+        <a class="btn" href="Mohammed_Usman_F_Resume.pdf" download>Download resume (PDF)</a>
+        <a class="btn ghost" href="mailto:mohammedusmanf483@gmail.com">Email me</a>
+      </div>
+
+      <div class="ask">
+        <h2>Ask this portfolio</h2>
+        <p class="hint">Type a question or pick one. The page retrieves the passages that match best, the same idea as the RAG systems below. It runs in your browser with keyword scoring and no LLM.</p>
+        <form id="askForm" autocomplete="off">
+          <input type="text" id="q" name="q" aria-label="Your question" placeholder="Try: how fast is the GPU pipeline?" value="RAG pipeline with fallbacks">
+          <button class="btn" type="submit">Retrieve</button>
+        </form>
+        <div class="chips" id="chips"></div>
+        <div class="results" id="results" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block about" id="about">
+    <div class="wrap">
+      <h2>About</h2>
+      <p>I'm finishing my MCA at Sri Siddhartha Institute of Technology in Tumkuru and looking for my first AI/ML engineering role.</p>
+      <p>I care about the parts of AI that make a system dependable: retrieving the right evidence, keeping outputs traceable, and falling back cleanly when a model call fails. Each of my projects pairs a model with a real backend, so an idea goes from data to a working API.</p>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+
+      <article class="project" id="rag">
+        <div>
+          <h3>AI Candidate Screening System</h3>
+          <p class="when">2026</p>
+          <p class="stack">FastAPI, ChromaDB, sentence-transformers, Claude API, Next.js, SQLAlchemy</p>
+          <p class="links"><a href="https://github.com/Usman1032/interviewiq-rag" target="_blank" rel="noopener">GitHub repository</a>, <a href="https://drive.google.com/file/d/1WXbFnHGZ6qJ7kPkAeRsmmU3L1IOn0uCR/view?usp=sharing" target="_blank" rel="noopener">Demo video</a></p>
+        </div>
+        <div>
+          <p class="lead">A RAG-powered interview simulator that turns a resume into grounded interview questions and keeps working when the LLM does not.</p>
+          <ol class="flow" aria-label="Pipeline stages">
+            <li><strong>Parse</strong>Extract the candidate profile from the resume.</li>
+            <li><strong>Chunk</strong>Split text with overlap so context is not cut mid-thought.</li>
+            <li><strong>Embed</strong>Local sentence-transformer embeddings.</li>
+            <li><strong>Retrieve</strong>Query a ChromaDB collection for each role.</li>
+            <li><strong>Generate</strong>Claude API writes questions and summaries from retrieved context.</li>
+            <li class="branch"><strong>Fall back</strong>Deterministic questions if the LLM call fails.</li>
+          </ol>
+          <ul class="points">
+            <li>Stores each question's retrieval query and source chunks, so every output can be traced to its evidence.</li>
+            <li>Adapts question difficulty from answer-quality signals.</li>
+            <li>Layered FastAPI backend (routers, services, RAG) with a Next.js front end, plus written notes on architecture and trade-offs.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="visionedge">
+        <div>
+          <h3>VisionEdge</h3>
+          <p class="when">2026, Axlero Solutions Intern Project Program</p>
+          <p class="stack">Python, FastAPI, TensorRT, CuPy, PyAV, aiortc, React</p>
+        </div>
+        <div>
+          <p class="lead">A GPU-resident, real-time video pipeline for object detection, from hardware-accelerated decode to TensorRT inference.</p>
+          <div class="bench">
+            <h4>Speedup over native PyTorch</h4>
+            <div class="bar-row"><span>PyTorch</span><div class="track"><i style="width:32.8%"></i></div><b>1.00x</b></div>
+            <div class="bar-row fast"><span>VisionEdge</span><div class="track"><i style="width:100%"></i></div><b>3.05x</b></div>
+            <p class="note">Sub-4 ms latency across concurrent multi-stream inference.</p>
+          </div>
+          <ul class="points">
+            <li>Designed and tested the FastAPI backend, using async orchestration to serve several streams at once.</li>
+            <li>Built a server-sent events API that streams live telemetry so throughput and reliability can be monitored.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="realestate">
+        <div>
+          <h3>Real Estate Investment Decision Platform</h3>
+          <p class="when">2025 to 2026</p>
+          <p class="stack">Python, scikit-learn, Pandas, NumPy, Django, SQLite/MySQL, Joblib</p>
+          <p class="links"><a href="https://github.com/Usman1032/Project" target="_blank" rel="noopener">GitHub repository</a></p>
+        </div>
+        <div>
+          <p class="lead">Predicts a property's value and rental income, then turns the numbers into a clear recommendation.</p>
+          <div class="verdicts" aria-label="Possible recommendations">
+            <span class="verdict buy">BUY</span>
+            <span class="verdict hold">HOLD</span>
+            <span class="verdict avoid">AVOID</span>
+          </div>
+          <ul class="points">
+            <li>Trained Random Forest models on engineered features (area, BHK, age, floor ratio, location), saved with Joblib and served through Django.</li>
+            <li>Built a finance engine covering EMI, ROI, affordability and an investment score.</li>
+            <li>Produces an analysis report with charts, backed by user, property and analysis models.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="wrap">
+      <h2>Skills</h2>
+      <dl class="skills">
+        <dt>GenAI and LLMs</dt>
+        <dd>Retrieval-augmented generation, Claude API integration, prompt engineering, grounded generation, agentic workflows, fallback and error handling for LLM calls.</dd>
+        <dt>ML and deep learning</dt>
+        <dd>CNNs, attention, transformer architectures, loss functions, optimization, evaluation metrics, scikit-learn, Random Forest, feature engineering.</dd>
+        <dt>Data and vector infrastructure</dt>
+        <dd>ChromaDB, sentence-transformers embeddings, chunking and retrieval, ingestion and preprocessing pipelines, Pandas, NumPy, SQL, SQLite, MySQL.</dd>
+        <dt>Inference and serving</dt>
+        <dd>FastAPI, Django, REST APIs, asyncio, server-sent events, TensorRT, CuPy, GPU-accelerated inference, Joblib model persistence.</dd>
+        <dt>Programming and tools</dt>
+        <dd>Python, JavaScript, Next.js and React, SQLAlchemy, Git, GitHub, Docker, Jenkins, CI/CD, Linux (working knowledge).</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="block" id="education">
+    <div class="wrap">
+      <h2>Education and certifications</h2>
+      <div class="edu">
+        <div>
+          <h3>Education</h3>
+          <ul>
+            <li><strong>Master of Computer Applications</strong><span>Sri Siddhartha Institute of Technology, Tumkuru. Sep 2024 to Aug 2026. CGPA 8.7 / 10.</span></li>
+            <li><strong>BSc in Computer Science</strong><span>Government First Grade College, Tumkuru. Oct 2021 to Sep 2024. CGPA 7.66 / 10.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Certifications</h3>
+          <ul>
+            <li><strong>AI-Machine Learning Engineer (150 hrs)</strong><span>Reliance Foundation Skilling Academy, Skill India Digital (NSDC). Aug 2026.</span></li>
+            <li><strong>Django Full Stack Development</strong><span>SSIT, Tumkuru. May 2025.</span></li>
+            <li><strong>Junior Software Developer (SSC/Q0508), NSQF Level 3</strong><span>Skill India / NASSCOM IT-ITeS SSC. Jul 2024.</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="langs">Languages: Kannada (native), English (professional), Hindi (conversational).</p>
+    </div>
+  </section>
+
+  <section class="block contact" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p class="open">Open to entry-level AI/ML engineering roles. Email is the fastest way to reach me.</p>
+      <div class="big"><a href="mailto:mohammedusmanf483@gmail.com">mohammedusmanf483@gmail.com</a></div>
+      <ul>
+        <li><a href="tel:+919380201698">+91 93802 01698</a></li>
+        <li><a href="https://linkedin.com/in/Mohammed-Usman-F" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/Usman1032" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+      <div class="actions">
+        <a class="btn ghost" href="Mohammed_Usman_F_Resume.pdf" download>Download resume (PDF)</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Bangalore, India. Last updated September 2026.</div>
+</footer>
+
+<script>
+(function () {
+  // Passages the search runs over. "kw" adds related words that are not shown.
+  var CHUNKS = [
+    { src: "Summary", text: "Entry-level AI/ML engineer with an MCA (CGPA 8.7/10) and an AI-ML Engineer certificate. Builds AI systems end to end, from data ingestion and embeddings to model integration, evaluation and API delivery.", kw: "about who introduction overview profile fresher" },
+    { src: "AI Candidate Screening System", href: "#rag", text: "Built an end-to-end RAG pipeline: resume parsing and profile extraction, chunking with overlap, local sentence-transformer embeddings, and retrieval from per-role ChromaDB collections.", kw: "retrieval augmented generation vector search llm" },
+    { src: "AI Candidate Screening System", href: "#rag", text: "Generates interview questions and summaries grounded in retrieved context using the Claude API, with deterministic fallbacks so the pipeline keeps working if the LLM call fails.", kw: "rag error handling reliability robust prompt" },
+    { src: "AI Candidate Screening System", href: "#rag", text: "Stores each question's retrieval query and source chunks for traceability, and adapts question difficulty from answer-quality signals.", kw: "rag explainability evidence adaptive" },
+    { src: "AI Candidate Screening System", href: "#rag", text: "Exposes the system through a layered FastAPI REST backend (routers, services, RAG) with a Next.js front end, and documents the architecture and trade-offs.", kw: "api backend frontend react architecture design" },
+    { src: "VisionEdge", href: "#visionedge", text: "Designed and tested a FastAPI backend for a GPU-resident real-time object detection pipeline, combining hardware-accelerated video decode with TensorRT-optimized inference.", kw: "computer vision gpu video internship axlero nvidia" },
+    { src: "VisionEdge", href: "#visionedge", text: "Achieved a 3.05x speedup over native PyTorch with sub-4ms latency, using async orchestration for concurrent multi-stream inference.", kw: "performance faster fast benchmark optimization gpu inference tensorrt" },
+    { src: "VisionEdge", href: "#visionedge", text: "Built a server-sent events API for live telemetry to monitor throughput and reliability.", kw: "streaming monitoring realtime metrics" },
+    { src: "Real Estate Investment Decision Platform", href: "#realestate", text: "Trained Random Forest models for property value and rental income prediction, using features such as area, BHK, age, floor ratio and location, persisted with Joblib and served through a Django backend.", kw: "machine learning scikit-learn prediction regression housing" },
+    { src: "Real Estate Investment Decision Platform", href: "#realestate", text: "Built a finance engine (EMI, ROI, affordability, investment score) and a BUY / HOLD / AVOID analysis report with charts, backed by user, property and analysis database models.", kw: "django database charts recommendation" },
+    { src: "About", href: "#about", text: "Finishing an MCA and looking for a first AI/ML engineering role. Cares about dependable AI systems: retrieving the right evidence, keeping outputs traceable, and falling back cleanly when a model call fails.", kw: "motivation interests goals looking for job" },
+    { src: "Skills: GenAI and LLMs", href: "#skills", text: "Retrieval-Augmented Generation (RAG), Claude API integration, prompt engineering, grounded generation, agentic workflows, fallback and error handling for LLM calls.", kw: "skills generative ai" },
+    { src: "Skills: ML and deep learning", href: "#skills", text: "CNNs, attention, transformer architectures, loss functions, optimization, evaluation metrics, scikit-learn, Random Forest, feature engineering, model evaluation.", kw: "skills neural networks machine learning" },
+    { src: "Skills: data and vector infrastructure", href: "#skills", text: "ChromaDB, sentence-transformers embeddings, chunking and retrieval, data ingestion and preprocessing pipelines, Pandas, NumPy, SQL, SQLite, MySQL.", kw: "skills databases data" },
+    { src: "Skills: inference and serving", href: "#skills", text: "FastAPI, Django, REST APIs, asyncio, server-sent events, TensorRT, CuPy, GPU-accelerated inference, Joblib model persistence.", kw: "skills deployment production serving" },
+    { src: "Skills: programming and tools", href: "#skills", text: "Python, JavaScript, Next.js and React, SQLAlchemy, Git, GitHub, Docker, Jenkins, CI/CD, Linux (working knowledge).", kw: "skills languages devops" },
+    { src: "Education", href: "#education", text: "Master of Computer Applications at Sri Siddhartha Institute of Technology, Tumkuru (Sep 2024 to Aug 2026), CGPA 8.7/10. BSc in Computer Science at Government First Grade College, Tumkuru (2021 to 2024), CGPA 7.66/10.", kw: "university college degree school study masters mca bsc grades cgpa" },
+    { src: "Certifications", href: "#education", text: "AI-Machine Learning Engineer Certificate (150 hrs) from Reliance Foundation Skilling Academy, Skill India Digital (NSDC), Aug 2026. Django Full Stack Development, SSIT, May 2025. Junior Software Developer, NSQF Level 3, Jul 2024.", kw: "certificate course training nsdc" },
+    { src: "Languages", href: "#education", text: "Kannada (native), English (professional), Hindi (conversational). Strengths: problem solving, teamwork, adaptability.", kw: "speak communication soft skills" },
+    { src: "Contact", href: "#contact", text: "Based in Bangalore, India. Email mohammedusmanf483@gmail.com, phone +91 93802 01698, LinkedIn Mohammed-Usman-F, GitHub Usman1032. Open to entry-level AI/ML engineering roles.", kw: "reach hire email phone linkedin github location bangalore available job resume cv" }
+  ];
+
+  var STOP = new Set("a an and are as at be by can did do does for from has have how i in is it its me of on or s so that the their them this to was we what when where which who why will with you your he his about tell show".split(" "));
+
+  function stem(w) {
+    if (w.length > 5) w = w.replace(/(ing|ed|es)$/, "");
+    if (w.length > 3) w = w.replace(/s$/, "");
+    return w;
+  }
+  function tokens(s) {
+    var m = s.toLowerCase().match(/[a-z0-9]+/g) || [];
+    return m.filter(function (w) { return !STOP.has(w); }).map(stem);
+  }
+
+  var docs = CHUNKS.map(function (c) {
+    var t = tokens(c.src + " " + c.text + " " + (c.kw || ""));
+    var tf = {};
+    t.forEach(function (w) { tf[w] = (tf[w] || 0) + 1; });
+    return { tf: tf, len: t.length };
+  });
+  var N = docs.length;
+  var avg = docs.reduce(function (a, d) { return a + d.len; }, 0) / N;
+  var df = {};
+  docs.forEach(function (d) { Object.keys(d.tf).forEach(function (w) { df[w] = (df[w] || 0) + 1; }); });
+
+  function search(query) {
+    var q = tokens(query);
+    if (!q.length) return { hits: [], q: q };
+    var k = 1.2, hits = [];
+    docs.forEach(function (d, i) {
+      var s = 0;
+      q.forEach(function (w) {
+        var f = d.tf[w];
+        if (!f) return;
+        var idf = Math.log(1 + (N - df[w] + 0.5) / (df[w] + 0.5));
+        s += idf * (f * (k + 1)) / (f + k * (0.25 + 0.75 * d.len / avg));
+      });
+      if (s > 0) hits.push({ i: i, s: s });
+    });
+    hits.sort(function (a, b) { return b.s - a.s; });
+    return { hits: hits.slice(0, 3), q: q };
+  }
+
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function highlight(text, qset) {
+    return esc(text).replace(/[A-Za-z0-9]+/g, function (w) {
+      return qset.has(stem(w.toLowerCase())) ? "<mark>" + w + "</mark>" : w;
+    });
+  }
+
+  var out = document.getElementById("results");
+  var input = document.getElementById("q");
+
+  function render(query) {
+    var r = search(query);
+    if (!r.q.length) { out.innerHTML = '<p class="empty">Type a question, or pick one above.</p>'; return; }
+    if (!r.hits.length) {
+      out.innerHTML = '<p class="empty">Nothing in this portfolio matches that. Try a topic like "RAG", "TensorRT speedup", "Django", "education" or "contact".</p>';
+      return;
+    }
+    var qset = new Set(r.q), top = r.hits[0].s;
+    out.innerHTML = r.hits.map(function (h) {
+      var c = CHUNKS[h.i], pct = Math.round(h.s / top * 100);
+      var link = c.href ? '<a href="' + c.href + '">See it on this page</a>' : "";
+      return '<div class="result"><header><span class="src">' + esc(c.src) + link + '</span>' +
+        '<span class="score"><span class="meter" aria-hidden="true"><i style="width:' + pct + '%"></i></span>Relative match ' + pct + '%</span></header>' +
+        '<p>' + highlight(c.text, qset) + '</p></div>';
+    }).join("");
+  }
+
+  var SUGGESTIONS = ["GPU inference speedup", "RAG pipeline with fallbacks", "Django and scikit-learn", "Education and certificates", "How do I contact him?"];
+  var chips = document.getElementById("chips");
+  SUGGESTIONS.forEach(function (s) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = s;
+    b.addEventListener("click", function () { input.value = s; render(s); });
+    chips.appendChild(b);
+  });
+
+  document.getElementById("askForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    render(input.value);
+  });
+
+  render(input.value);
+})();
+</script>
+</body>
+</html>
